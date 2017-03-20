@@ -7,17 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Implementação do Data Access Object (Padrão de Projeto) do Usuário através de
- * Lista em memória
+ * Implementação do Data Access Object (Padrão de Projeto) do Funcionário, dos 
+ * Produtos e dos pedidos através de lista em memória
  * 
  * @author Paulo Jr. e Julio Alves
+ * @author Fabricio, Matheus e Priscilla
  */
 public class DadosDAOLista implements DadosDAO {
 
     // instância única da classe (Padrão de Projeto Singleton)
     private static DadosDAOLista instancia;
     
-    // lista em memória dos usuários cadastrados
+    // lista em memória dos funcionários cadastrados
     private final List<Funcionario> listaFuncionarios;
     
     // lista em memória dos produtos cadastrados
@@ -28,7 +29,7 @@ public class DadosDAOLista implements DadosDAO {
     private final List<Pedido> listaPedidos;
 
     /**
-     * Constrói o objeto já definindo 5 usuários padrões
+     * Constrói o objeto já definindo os produtos padrões e um funcionário "convidado"
      */
     private DadosDAOLista() {
         listaFuncionarios = new ArrayList<>();
@@ -66,10 +67,10 @@ public class DadosDAOLista implements DadosDAO {
     }
 
     /**
-     * Retorna o usuário a partir de seu login
+     * Retorna o funcionário a partir de seu login
      * 
-     * @param login Login do usuário a ser retornado.
-     * @return Usuário correspondente ao login passado.
+     * @param login Login do funcionário a ser retornado.
+     * @return Funcionário correspondente ao login passado.
      */
     @Override
     public Funcionario obterFuncionarioPeloLogin(String login) {
@@ -82,41 +83,60 @@ public class DadosDAOLista implements DadosDAO {
     }
 
     /**
-     * Cadastra o usuário passado.
+     * Cadastra o funcionario passado.
      * 
-     * @param usuario Usuário a ser cadastrado.
+     * @param funcionario Funcionário a ser cadastrado.
      */
     @Override
     public void adicionarFuncionario(Funcionario funcionario) {
         listaFuncionarios.add(funcionario);
     }
-
+    
+    /**
+     * Adiciona um novo pedido.
+     * 
+     * @param pedido Pedido a ser adicionado.
+     */
     @Override
     public void adicionarPedido(Pedido pedido) {
         listaPedidos.add(pedido);
     }
     
+    /**
+     * Remove um pedido.
+     * 
+     * @param pedido Pedido a ser removido.
+     */
     @Override
     public void removerPedido(Pedido pedido) {
         listaPedidos.remove(pedido);
     }
     
-    
-/*    public void removerUltimoItem(Pedido pedido) {
-        listaPedidos.pedido.getProdutos();
-    }
-*/
-
+    /**
+     * Retorna a lista de lanches pre-definidos e armazenados.
+     * 
+     * @return ListaLanches Lista de lanches a ser retornada.
+     */
     @Override
     public List<Produto> getListaLanches() {
         return listaLanches;
     }
-
+    
+    /**
+     * Retorna a lista de bebidas pre-definidas e armazenadas.
+     * 
+     * @return ListaBebidas Lista de bebidas a ser retornada.
+     */
     @Override
     public List<Produto> getListaBebidas() {
         return listaBebidas;
     }    
-
+    
+    /**
+     * Retorna a lista de pedidos.
+     * 
+     * @return ListaPedidos Lista de bebidasedidos a ser retornada.
+     */
     @Override
     public List<Pedido> getListaPedidos() {
         return listaPedidos;

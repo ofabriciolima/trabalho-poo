@@ -5,21 +5,22 @@
  */
 package br.ufla.dcc.lanchonete.gui;
 
-import java.util.Arrays;
 import br.ufla.dcc.lanchonete.servicos.GerenciadorFuncionarios;
 import br.ufla.dcc.lanchonete.modelo.Funcionario;
 import br.ufla.dcc.lanchonete.util.Utilidades;
+import java.util.Arrays;
 
 /**
- *
- * @author Matheus
+ * Classe que representa a Tela de Cadastro de funcionários.
+ * 
+ * @author Fabricio, Matheus e Priscilla
  */
 public class TelaCadFuncionario extends javax.swing.JFrame {
     
     private final GerenciadorFuncionarios gerenciadorFuncionarios;
 
     /**
-     * Creates new form TelaCadFuncionario
+     * Cria tela de Cadastro de funcionários.
      */
     public TelaCadFuncionario() {
         this.gerenciadorFuncionarios = new GerenciadorFuncionarios();
@@ -132,6 +133,11 @@ public class TelaCadFuncionario extends javax.swing.JFrame {
     
     
     //**********EVENTOS**********//
+    
+    /**
+     * Evento do botão Cadastrar da tela.
+     * @param evt 
+     */
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         try {
             if (!Arrays.equals(pfSenha.getPassword(), pfConfirmarSenha.getPassword())) {
@@ -144,21 +150,38 @@ public class TelaCadFuncionario extends javax.swing.JFrame {
             Utilidades.msgErro(ex.getMessage());
         }
     }//GEN-LAST:event_btnCadastrarActionPerformed
-
+    
+    /**
+     * Evento do botão Cancelar da tela.
+     * @param evt 
+     */
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     
     //**********MÉTODOS**********//
+    
+    /**
+     * Inicializa e exibe a tela de cadastro de funcionário.
+     */
     public void inicializar() {
         new TelaCadFuncionario().setVisible(true);
     }
     
+    /**
+     * Retorna um novo funcionário a partir do nome, login e senha passados.
+     * 
+     * @return Funcionário criado.
+     */
     private Funcionario carregarFuncionario() {
         return new Funcionario(tfNome.getText(), tfLogin.getText(), pfSenha.getPassword());
     }
     
+    
+    /**
+     * Limpa os campos de texto da tela.
+     */
     private void limparTela() {
         tfNome.setText("");
         tfLogin.setText("");

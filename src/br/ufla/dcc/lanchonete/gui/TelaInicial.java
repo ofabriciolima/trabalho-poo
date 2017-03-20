@@ -10,8 +10,10 @@ import br.ufla.dcc.lanchonete.modelo.Funcionario;
 import br.ufla.dcc.lanchonete.util.Utilidades;
 
 /**
- *
- * @author Matheus
+ * Classe que representa a Tela Inicial que contém autenticação e cadastro de
+ * funcionários.
+ * 
+ * @author Fabricio, Matheus e Priscilla
  */
 public class TelaInicial extends javax.swing.JFrame {
     
@@ -20,7 +22,7 @@ public class TelaInicial extends javax.swing.JFrame {
     private final GerenciadorFuncionarios gerenciadorFuncionarios;
 
     /**
-     * Creates new form TelaInicial
+     * Cria uma nova Tela Inicial e inicia os seus componentes.
      */
     public TelaInicial() {
         telaPrincipal = new TelaPrincipal();
@@ -111,6 +113,12 @@ public class TelaInicial extends javax.swing.JFrame {
     
     
     //**********EVENTOS**********//
+    
+    /**
+     * Evento do botão Entrar da tela.
+     * 
+     * @param evt 
+     */
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         try {
             gerenciadorFuncionarios.autenticarFuncionario(carregarFuncionario());
@@ -120,17 +128,31 @@ public class TelaInicial extends javax.swing.JFrame {
             Utilidades.msgErro(ex.getMessage());
         }
     }//GEN-LAST:event_btnEntrarActionPerformed
-
+    
+    /**
+     * Evento do botão Cadastrar novo Funcionário da tela.
+     * 
+     * @param evt 
+     */
     private void btnCadastrarNovoFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarNovoFuncionarioActionPerformed
         telaCadFuncionario.inicializar();
     }//GEN-LAST:event_btnCadastrarNovoFuncionarioActionPerformed
 
 
     //**********MÉTODOS**********//
+    
+    /**
+     * Retorna um novo funcionário a partir do login e senha passados.
+     * 
+     * @return Funcionário criado.
+     */
     private Funcionario carregarFuncionario() {
         return new Funcionario(tfLogin.getText(), pfSenha.getPassword());
     }
     
+    /**
+     * Limpa os campos de texto da tela.
+     */
     private void limparTela() {
         tfLogin.setText("");
         pfSenha.setText("");

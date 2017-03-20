@@ -6,20 +6,20 @@ import br.ufla.dcc.lanchonete.modelo.Funcionario;
 import br.ufla.dcc.lanchonete.seguranca.SessaoFuncionario;
 
 /**
- * Classe que representa a camada de negócios de cadastro de usuários. Permite
- * cadastrar e autenticar um usuário.
+ * Classe que representa a camada de negócios de cadastro de funcionários. Permite
+ * cadastrar e autenticar um funcionário.
  * 
  * @author Paulo Jr. e Julio Alves
  */
 public class GerenciadorFuncionarios {
 
-    // atributo utilizado como camada de acesso a dados do cadastro de usuários
+    // atributo utilizado como camada de acesso a dados do cadastro de funcionário.
     private final DadosDAO repositorioFuncionario;
-    // atributo para controle de sessão (autenticação do usuário)
+    // atributo para controle de sessão (autenticação do funcionário)
     private final SessaoFuncionario sessaoFuncionario;
 
     /**
-     * Constroi o gerenciador de usuários, inicializando as camadas de acesso a 
+     * Constroi o gerenciador de funcionários, inicializando as camadas de acesso a 
      * dados e de sessão.
      */
     public GerenciadorFuncionarios() {
@@ -28,11 +28,11 @@ public class GerenciadorFuncionarios {
     }
 
     /**
-     * Tenta autenticar o usuário passado no sistema.
+     * Tenta autenticar o funcionário passado no sistema.
      * 
-     * @param usuario Usuário a ser autenticado
-     * @throws Exception Exceção gerada caso o usuário não possa ser autenticado,
-     * ou seja, usuário não existe ou senha incorreta.
+     * @param funcionario Funcionário a ser autenticado
+     * @throws Exception Exceção gerada caso o funcionário não possa ser autenticado,
+     * ou seja, funcionário não existe ou senha incorreta.
      */
     public void autenticarFuncionario(Funcionario funcionario) throws Exception {
         Funcionario funcionarioCadastrado = repositorioFuncionario.obterFuncionarioPeloLogin(funcionario.getLogin());
@@ -40,10 +40,10 @@ public class GerenciadorFuncionarios {
     }
 
     /**
-     * Cadastra o usuário passado no sistema.
+     * Cadastra o funcionário passado no sistema.
      * 
-     * @param usuario Usuário a ser cadastrado.
-     * @throws Exception Exceção gerada caso o usuário já esteja cadastrado.
+     * @param funcionario Funcionário a ser cadastrado.
+     * @throws Exception Exceção gerada caso o funcionário já esteja cadastrado.
      */
     public void cadastrarFuncionario(Funcionario funcionario) throws Exception {
         Funcionario ret = repositorioFuncionario.obterFuncionarioPeloLogin(funcionario.getLogin());

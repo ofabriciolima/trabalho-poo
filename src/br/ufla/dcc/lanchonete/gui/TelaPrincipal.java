@@ -13,10 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 
-
 /**
- *
- * @author Matheus
+ * Classe que representa a Tela Principal, que é reponsável pelo cadastro e 
+ * alteração de pedidos.
+ * 
+ * @author Fabricio, Matheus e Priscilla
  */
 public class TelaPrincipal extends javax.swing.JFrame {
     
@@ -27,7 +28,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private List<Pedido> pedidosBuscados;
     
     /**
-     * Creates new form TelaPrincipal
+     * Cria nova Tela Principal.
      */
     public TelaPrincipal() {
         this.gerenciadorPedidos = new GerenciadorPedidos();
@@ -367,29 +368,47 @@ public class TelaPrincipal extends javax.swing.JFrame {
     
     
     //**********EVENTOS**********//
+    
+    /**
+     * Evento do botão 'Remover pedido'.
+     * 
+     * @param evt 
+     */
     private void btnRemoverPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverPedidoActionPerformed
-        if (!lstPedidos.isSelectionEmpty()) {
-            taDetalhes.setText("");
-            gerenciadorPedidos.getListaPedidos().remove(lstPedidos.getSelectedIndex());
-            modelTodos.remove(lstPedidos.getSelectedIndex());
-            lstPedidos.setModel(modelTodos);
-        }
-        else {
-            Utilidades.msgInformacao("Nenhum pedido selecionado");
+        if (pedidoAberto || alterandoPedido) {
+            Utilidades.msgInformacao("Feche o pedido atual para poder remover");
+        } else {
+            if (!lstPedidos.isSelectionEmpty()) {
+                taDetalhes.setText("");
+                gerenciadorPedidos.getListaPedidos().remove(lstPedidos.getSelectedIndex());
+                modelTodos.remove(lstPedidos.getSelectedIndex());
+                lstPedidos.setModel(modelTodos);
+            } else {
+                Utilidades.msgInformacao("Nenhum pedido selecionado");
+            }
         }
     }//GEN-LAST:event_btnRemoverPedidoActionPerformed
-
+    
+    /**
+     * Evento do botão 'Fechar Pedido'.
+     * 
+     * @param evt 
+     */
     private void btnFecharPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharPedidoActionPerformed
         if (pedidoAberto || alterandoPedido) {
             pedidoAberto = false;
-        alterandoPedido = false;
-        Utilidades.msgInformacao("Pedido fechado!");
-        }
-        else {
+            alterandoPedido = false;
+            Utilidades.msgInformacao("Pedido fechado!");
+        } else {
             Utilidades.msgInformacao("Nenhum pedido aberto ou sendo alterado");
         }
     }//GEN-LAST:event_btnFecharPedidoActionPerformed
-
+    
+    /**
+     * Evento do botão 'Adicionar', que adiciona o lanche e a quantidade selecionada ao pedido.
+     * 
+     * @param evt 
+     */
     private void btnAdicionarLancheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarLancheActionPerformed
         if (pedidoAberto) {
             for (int i=0; i<5; i++) {
@@ -407,13 +426,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     }
                 }
             }
-        }
-        else {
+        } else {
             Utilidades.msgInformacao("Nenhum pedido aberto ou sendo alterado");
         }
     }//GEN-LAST:event_btnAdicionarLancheActionPerformed
 
-    DefaultListModel modelTodos = new DefaultListModel();
+    DefaultListModel modelTodos = new DefaultListModel(); //definindo um "modelo" para exibição da lista de todos os pedidos
+    /**
+     * Evento do botão 'Abrir pedido'.
+     * 
+     * @param evt 
+     */
     private void btnAbrirPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirPedidoActionPerformed
         if (!pedidoAberto && !alterandoPedido) {
             if (tfCliente.getText().length() > 0) {
@@ -423,19 +446,27 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 lstPedidos.setModel(modelTodos);
                 pedidoAberto = true;
                 Utilidades.msgInformacao("             Pedido aberto!\nAdicione os produtos do pedido");
-            }
-            else {
+            } else {
                 Utilidades.msgInformacao("Digite o nome do cliente");
             } 
         } else {
             Utilidades.msgInformacao("Feche o pedido atual antes de abrir outro");
         }
     }//GEN-LAST:event_btnAbrirPedidoActionPerformed
-
+    
+    /**
+     * Evento do botão 'Sair', que fecha a tela princial.
+     * 
+     * @param evt 
+     */
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnSairActionPerformed
-
+    
+    /**
+     * Evento do botão 'Adicionar', que a adiciona a bebida e quantidade selecionada ao pedido.
+     * @param evt 
+     */
     private void btnAdicionarBebidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarBebidasActionPerformed
         if (pedidoAberto) {
             for (int i=0; i<4; i++) {
@@ -457,21 +488,28 @@ public class TelaPrincipal extends javax.swing.JFrame {
             Utilidades.msgInformacao("Nenhum pedido aberto ou sendo alterado");
         }
     }//GEN-LAST:event_btnAdicionarBebidasActionPerformed
-
+    /**
+     * Evento para mudança de dados exibidos na lista de pedidos.
+     * 
+     * @param evt 
+     */
     private void lstPedidosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstPedidosValueChanged
         try {
-            if (tfBuscarPedido.getText().length() < 1) {
+            if (tfBuscarPedido.getText().length() < 2) {
                 atualizarDetalhes(gerenciadorPedidos.getListaPedidos().get(lstPedidos.getSelectedIndex()));
             } else {
                 atualizarDetalhes(pedidosBuscados.get(lstPedidos.getSelectedIndex()));
             }
-        } catch(ArrayIndexOutOfBoundsException e) {
-            
-        }
+        } catch(ArrayIndexOutOfBoundsException e) { }
     }//GEN-LAST:event_lstPedidosValueChanged
 
+    /**
+     * Evento de busca de pedido.
+     * 
+     * @param evt 
+     */
     private void tfBuscarPedidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfBuscarPedidoKeyTyped
-        DefaultListModel modelBuscados = new DefaultListModel();
+        DefaultListModel modelBuscados = new DefaultListModel(); //definindo um "modelo" para exibição da lista apenas dos pedidos buscados
         pedidosBuscados = gerenciadorPedidos.buscarPedidos(tfBuscarPedido.getText());
         for (Pedido pedido : pedidosBuscados) {
             modelBuscados.addElement("Pedido " + pedido.getNumeroPedido() + " - " + pedido.getCliente());
@@ -479,6 +517,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         lstPedidos.setModel(modelBuscados);
     }//GEN-LAST:event_tfBuscarPedidoKeyTyped
 
+    /**
+     * Evento do botão 'Remover ultimo item', que remove ultimo item adicionado ao pedido.
+     * 
+     * @param evt 
+     */
     private void btnRemoverUltimoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverUltimoItemActionPerformed
         if (pedidoAberto) {
             if (gerenciadorPedidos.getListaPedidos().get(gerenciadorPedidos.getListaPedidos().size()-1).getProdutos().size() > 0) { 
@@ -497,14 +540,26 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnRemoverUltimoItemActionPerformed
 
+    /**
+     * Evento criado ao clicar em algum pedido da 'Lista de pedidos'.
+     * 
+     * @param evt 
+     */
     private void lstPedidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstPedidosMouseClicked
-        if (tfBuscarPedido.getText().length() < 2) {
-            atualizarDetalhes(gerenciadorPedidos.getListaPedidos().get(lstPedidos.getSelectedIndex()));
-        } else {
-            atualizarDetalhes(pedidosBuscados.get(lstPedidos.getSelectedIndex()));
-        }
+        try {
+            if (tfBuscarPedido.getText().length() < 2) {
+                atualizarDetalhes(gerenciadorPedidos.getListaPedidos().get(lstPedidos.getSelectedIndex()));
+            } else {
+                atualizarDetalhes(pedidosBuscados.get(lstPedidos.getSelectedIndex()));
+            }   
+        } catch(ArrayIndexOutOfBoundsException e) { }
     }//GEN-LAST:event_lstPedidosMouseClicked
 
+    /**
+     * Evento do botão 'Alterar pedido'.
+     * 
+     * @param evt 
+     */
     private void btnAlterarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarPedidoActionPerformed
         if (!lstPedidos.isSelectionEmpty()) {
             if (!pedidoAberto) {
@@ -519,15 +574,28 @@ public class TelaPrincipal extends javax.swing.JFrame {
  
    
     //**********MÉTODOS**********//
+    
+    /**
+     * Inicia uma nova tela principal.
+     */
     public void inicializar() {
         new TelaPrincipal().setVisible(true);
     }
     
+    /**
+     * Retorna um novo pedido a aprtir do nome do cliente e  número do pedido passados
+     * .
+     * @return Pedido criado.
+     */
     private Pedido carregarPedido() {
         contadorPedidos++;
         return new Pedido(tfCliente.getText(), contadorPedidos, new ArrayList<>());
     } 
     
+    /**
+     * Atualiza a área de detalhes com os dados do pedido.
+     * @param ped Pedido selecionado.
+     */
     private void atualizarDetalhes(Pedido ped) {
         taDetalhes.setText("");
         taDetalhes.append("Número do pedido: " + ped.getNumeroPedido() + "\n");
